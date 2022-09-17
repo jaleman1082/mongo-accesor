@@ -1,60 +1,47 @@
+const http = require('http');
+const app = require('./app');
 
-const { MongoClient } = require("mongodb");
+const normalizePort = val => {
+  const port = parseInt(val, 10);
 
-// Replace the uri string with your connection string.
-const uri = 
-"mongodb+srv://MathLogic:MathLogicAdmin@mathlogiccluster.4nbztgb.mongodb.net/?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
-
-async function run() {
-  try {
-    const database = client.db('PruebaDB');
-    const movies = database.collection('CollectionNamePrueba');
-    // filtro
-    const query = { attr1:"Primer Dato"};
-    const movie = await movies.findOne(query);
-
-    console.log(movie);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+  if (isNaN(port)) {
+    return val;
   }
-}
-run().catch(console.dir);
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
+const port = normalizePort('8800' ||'3000');
+app.set('port', port);
 
-/*
+const errorHandler = error => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges.');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use.');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
 
-    require(['mongodb'], function (MongoClient) {
+const server = http.createServer(app);
 
-        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        client.connect(err => {
-            const collection = client.db("PruebaDB").collection("CollectionNamePrueba");
-            const cursor = collection.find(query);
-              // perform actions on the collection object
-            cursor.forEach(console.log);
-            cursor.forEach(console.dir);
-            // perform actions on the collection object
-            client.close();
-        });
+server.on('error', errorHandler);
+server.on('listening', () => {
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+  console.log('Listening on ' + bind);
+});
 
-        async function run() {
-          try {
-            const database = client.db("PruebaDB");
-            const collection = database.collection("CollectionNamePrueba");
-            // create a document to insert
-            const doc = {
-              title: "Record of a Shriveled Datum",
-              content: "No bytes, no problem. Just insert a document, in MongoDB",
-            }
-            const result = await haiku.insertOne(doc);
-            console.log('A document was inserted with the _id: ${result.insertedId}');
-          } finally {
-            await client.close();
-          }
-        }
-        run().catch(console.dir);
-
-    });     
-
-*/
+server.listen(port);
