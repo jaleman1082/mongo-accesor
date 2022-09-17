@@ -6,7 +6,8 @@ async function dbConnect() {
   // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
   mongoose
     .connect(
-      process.env.DB_URL,
+      //process.env.DB_URL,
+      "mongodb+srv://MathLogic:MathLogicAdmin@mathlogiccluster.4nbztgb.mongodb.net/?retryWrites=true&w=majority",
       {
         //   these are options to ensure that the connection is done properly
         useNewUrlParser: true,

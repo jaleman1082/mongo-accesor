@@ -1,1 +1,1 @@
-web: nodemon index
+web: nodemon index -p 8800 -PORT 8800
