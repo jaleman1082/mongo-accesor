@@ -1,1 +1,1 @@
-web: node index.js --port=8800
+web: node index.js -p 8800
