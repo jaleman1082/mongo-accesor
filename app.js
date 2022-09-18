@@ -134,22 +134,7 @@ app.get("/auth-endpoint", auth, (request, response) => {
 
 // register endpoint
 app.post("/saveData", (request, response) => {
-  
-
-  let callback = (result) => {
-    response.status(201).send({
-      message: "User Created Successfully",
-      result,
-    });
-  };
-
-  let reject = (error) => {
-    response.status(500).send({
-      message: "Error creating user",
-      error,
-    });
-  };
-
+  console.log(Respuesta);
   switch(request.body.tipo) {
     case 'respuesta': 
       // create a new respuesta instance and collect the data
@@ -165,9 +150,19 @@ app.post("/saveData", (request, response) => {
       respuesta
         .save()
         // return success if the new respuesta is added to the database successfully
-        .then(callback)
+        .then((result) => {
+          response.status(201).send({
+            message: "Respuesta Created Successfully",
+            result,
+          });
+        })
         // catch erroe if the new respuesta wasn't added successfully to the database
-        .catch(reject);
+        .catch((error) => {
+          response.status(500).send({
+            message: "Error creating respuesta",
+            error,
+          });
+        });
     break;
   }
  

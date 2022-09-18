@@ -11,4 +11,4 @@ const RespuestaSchema = new mongoose.Schema({
 });
 
 // export RespuestaSchema
-module.exports = mongoose.model.Respuestas || mongoose.model("Respuestas", RespuestaSchema, 'CollectionNamePrueba');
+module.exports = mongoose.model.Respuestas || mongoose.model("Respuestas", RespuestaSchema, 'CollectionRespuestas');
