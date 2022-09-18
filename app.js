@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
+const Respuesta = require("./db/respuestaModel");
 const Prueba = require("./db/pruebaModel");
 const Problem = require("./db/problemModel");
 const auth = require("./auth");
@@ -130,5 +131,49 @@ Problem*/
 app.get("/auth-endpoint", auth, (request, response) => {
   response.send({ message: "You are authorized to access me" });
 });
+
+// register endpoint
+app.post("/saveData", (request, response) => {
+  
+
+  let callback = (result) => {
+    response.status(201).send({
+      message: "User Created Successfully",
+      result,
+    });
+  };
+
+  let reject = (error) => {
+    response.status(500).send({
+      message: "Error creating user",
+      error,
+    });
+  };
+
+  switch(request.body.tipo) {
+    case 'respuesta': 
+      // create a new respuesta instance and collect the data
+      const respuesta = new Respuesta({
+        tipo : request.body.tipo,
+        uuid : request.body.uuid,
+        idProblema : request.body.idProblema,
+        idSolucion : request.body.idSolucion,
+        segundos : request.body.segundos,
+        timestamp : request.body.timestamp
+      });
+      // save Data
+      respuesta
+        .save()
+        // return success if the new respuesta is added to the database successfully
+        .then(callback)
+        // catch erroe if the new respuesta wasn't added successfully to the database
+        .catch(reject);
+    break;
+  }
+ 
+});
+
+
+
 
 module.exports = app;
