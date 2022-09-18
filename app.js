@@ -144,6 +144,7 @@ app.post("/saveData", (request, response) => {
         idProblema : request.body.idProblema,
         idSolucion : request.body.idSolucion,
         segundos : request.body.segundos,
+        datestamp : request.body.datestamp,
         timestamp : request.body.timestamp
       });
       // save Data

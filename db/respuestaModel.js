@@ -7,6 +7,7 @@ const RespuestaSchema = new mongoose.Schema({
   idProblema: {type: Number},
   idSolucion: {type: Number},
   segundos: {type: Number},
+  datestamp: {type: String},
   timestamp: {type: String}
 });
 
