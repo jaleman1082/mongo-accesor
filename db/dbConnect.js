@@ -12,7 +12,7 @@ async function dbConnect() {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
-        dbName: 'PruebaDB'
+        dbName: 'numbersDB'
       }
     )
     .then(() => {

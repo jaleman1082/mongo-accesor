@@ -6,10 +6,12 @@ const jwt = require("jsonwebtoken");
 
 // require database connection
 const dbConnect = require("./db/dbConnect");
-const User = require("./db/userModel");
+
+//const User = require("./db/userModel");
 const Respuesta = require("./db/respuestaModel");
-const Prueba = require("./db/pruebaModel");
-const Problem = require("./db/problemModel");
+const UsuariosStatus = require("./db/usuariosStatusModel");
+//const Prueba = require("./db/pruebaModel");
+//const Problem = require("./db/problemModel");
 const auth = require("./auth");
 
 // execute database connection
@@ -110,26 +112,17 @@ app.post("/login", (request, response) => {
     });
 });
 
-// free endpoint
-app.get("/free-endpoint", (request, response) => {
-/*Prueba
-Problem*/
-
-  Prueba.findOne({})
-  .then((prueba) => {
-    response.json({ obj: prueba });
-  })
-  .catch((error) => {
-    response.status(400).send({
-      message: "Passwords does not match",
-      error,
-    });
-  });
-});
-
 // authentication endpoint
 app.get("/auth-endpoint", auth, (request, response) => {
   response.send({ message: "You are authorized to access me" });
+});
+
+// Siguiente Nivel para el usuario
+app.post("/subeNivelUsuario", (request, response) => {
+  UsuariosStatus.where({ email: request.body.email})
+    .update({$inc:{nivel: 1}}, (res)=>{
+      console.log(res);
+    });
 });
 
 // register endpoint
@@ -165,11 +158,33 @@ app.post("/saveData", (request, response) => {
           });
         });
     break;
+    case 'usuariosStatus': 
+      // create a new usuariosStatus instance and collect the data
+      const usuariosStatus = new UsuariosStatus({
+        monedero: 0,
+        nivel: 1,
+        email: request.body.email,
+      });
+      // save Data
+      usuariosStatus
+        .save()
+        // return success if the new usuariosStatus is added to the database successfully
+        .then((result) => {
+          response.status(201).send({
+            message: "Respuesta Created Successfully",
+            result,
+          });
+        })
+        // catch erroe if the new usuariosStatus wasn't added successfully to the database
+        .catch((error) => {
+          response.status(500).send({
+            message: "Error creating usuariosStatus",
+            error,
+          });
+        });
+    break;
   }
  
 });
-
-
-
 
 module.exports = app;
