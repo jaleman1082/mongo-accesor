@@ -120,16 +120,16 @@ app.get("/auth-endpoint", auth, (request, response) => {
 // Siguiente Nivel para el usuario
 app.post("/subeNivelUsuario", (request, response) => {
   UsuariosStatus.where({ email: request.body.email})
-    .update({$inc:{nivel: 1}}, (res)=>{
+    .updateOne({$inc:{nivel: 1}}, (res)=>{
       console.log(res);
     });
 });
 
 // register endpoint
 app.post("/saveData", (request, response) => {
-  console.log(Respuesta);
   switch(request.body.tipo) {
     case 'respuesta': 
+      console.log(Respuesta);
       // create a new respuesta instance and collect the data
       const respuesta = new Respuesta({
         tipo : request.body.tipo,
@@ -160,6 +160,7 @@ app.post("/saveData", (request, response) => {
     break;
     case 'usuariosStatus': 
       // create a new usuariosStatus instance and collect the data
+      console.log(UsuariosStatus);
       const usuariosStatus = new UsuariosStatus({
         monedero: 0,
         nivel: 1,
@@ -184,7 +185,6 @@ app.post("/saveData", (request, response) => {
         });
     break;
   }
- 
 });
 
 module.exports = app;
