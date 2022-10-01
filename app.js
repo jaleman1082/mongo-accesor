@@ -125,6 +125,15 @@ app.post("/subeNivelUsuario", (request, response) => {
     });
 });
 
+
+// Siguiente Nivel para el usuario
+app.get("/nivelUsuario", (request, response) => {
+  // if email exists
+  UsuariosStatus.findOne({ email: request.body.email}).then((user) => {
+    response.json(user);
+  });
+});
+
 // register endpoint
 app.post("/saveData", (request, response) => {
   switch(request.body.tipo) {
