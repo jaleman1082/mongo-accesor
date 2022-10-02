@@ -171,7 +171,7 @@ app.post("/saveData", (request, response) => {
       // create a new usuariosStatus instance and collect the data
       console.log(UsuariosStatus);
       const usuariosStatus = new UsuariosStatus({
-        monedero: 0,
+        puntos: 0,
         nivel: 1,
         email: request.body.email,
       });
