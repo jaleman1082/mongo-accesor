@@ -140,6 +140,7 @@ app.post("/saveData", (request, response) => {
       // create a new respuesta instance and collect the data
       const respuesta = new Respuesta({
         tipo : request.body.tipo,
+        prepa : request.body.prepa,
         uuid : request.body.uuid,
         idProblema : request.body.idProblema,
         idSolucion : request.body.idSolucion,

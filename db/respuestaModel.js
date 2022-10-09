@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 // Respuesta schema
 const RespuestaSchema = new mongoose.Schema({
   tipo: {type: String},
+  prepa: {type: String},
   uuid: {type: String},
   idProblema: {type: Number},
   idSolucion: {type: Number},
